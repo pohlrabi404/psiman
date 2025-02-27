@@ -1,0 +1,70 @@
+#+title: README
+#+author: Pohlrabi
+
+* Table of Content :toc:
+- [[#overview][Overview]]
+- [[#features][Features]]
+- [[#installation][Installation]]
+  - [[#manually][Manually]]
+  - [[#using-elpaca][Using elpaca]]
+- [[#usage][Usage]]
+- [[#configuration][Configuration]]
+
+* Overview
+psiman (Pohl's Package Manager) is an Emacs package designed to manage system packages using a declarative approach. It allows you to define a list of packages in a file and synchronizes the system packages with this list by installing missing packages and uninstalling packages that are no longer in the list.
+
+* Features
+- Declarative Package Management: Define your desired package list in a file.
+- Automatic Installation and Uninstallation: Synchronize your system packages with the declared list.
+
+* Installation
+** Manually
+1. Clone the repo
+#+begin_src sh
+git clone https://github.com/pohlrabi404/psiman.git
+#+end_src
+2. Load the package
+Add the following to your Emacs configuration file
+#+begin_src elisp
+(add-to-list 'load-path "path/to/your/psiman/installation/dir")
+(require 'psiman)
+#+end_src
+
+** TODO Using elpaca
+
+* Usage
+1. Define package list
+Create a file at the path specified by *psiman-pkgs-path* (default ~/.pkgs). Each line in this file should be name of a package. For example:
+#+begin_src text
+vim
+neovim
+zsh
+#+end_src
+
+2. Sync packages
+Run the following command to sync the packages compared to cache file *psiman-cache-path* (default in ~/.cache)
+#+begin_src elisp
+M-x psiman-sync-all
+#+end_src
+
+* Configuration
+You can customize the behavior of psiman by setting the following variables:
+- psiman-pkgs-path:
+        The path to the file containing the list of packages.
+        Default: ./pkgs
+- psiman-cache-path:
+        The path to the cache file.
+        Default: ./cache
+- psiman-install-cmd:
+        The command to install packages.
+        Default: "paru -S "
+- psiman-uninstall-cmd:
+        The command to uninstall packages.
+        Default: "paru -R "
+- Example:
+#+begin_src elisp
+(setq psiman-pkgs-path "/path/to/pkgs")
+(setq psiman-cache-path "/path/to/cache")
+(setq psiman-install-cmd "paru -S ")
+(setq psiman-uninstall-cmd "paru -R ")
+#+end_src
