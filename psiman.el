@@ -51,6 +51,7 @@
   "Synchronize system packages with the declared list.
 This function iterates over the commands in `psiman-cmd-list` and calls
 `psiman-sync-cmd` for each set of commands."
+  (interactive)
   (let ((temp "")
         ;; Function to send a command to the shell.
         (send-cmd-to-shell (lambda (cmd buffer-name)
