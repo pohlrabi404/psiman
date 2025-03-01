@@ -11,11 +11,13 @@
 - [[#configuration][Configuration]]
 
 * Overview
-psiman (Pohl's Package Manager) is an Emacs package designed to manage system packages using a declarative approach. It allows you to define a list of packages in a file and synchronizes the system packages with this list by installing missing packages and uninstalling packages that are no longer in the list.
+psiman (Pohl's Simple Index Manager) is an Emacs package designed to manage system packages using a declarative approach.
+It allows you to define a list of packages in a file and synchronizes the system packages with this list by installing missing packages and uninstalling packages that are no longer in the list.
 
 * Features
 - Declarative Package Management: Define your desired package list in a file.
 - Automatic Installation and Uninstallation: Synchronize your system packages with the declared list.
+- Can also do the same with other type of commands like symlink or enabling/disabling services
 
 * Installation
 ** Manually
@@ -34,7 +36,7 @@ Add the following to your Emacs configuration file
 
 * Usage
 1. Define package list
-Create a file at the path specified by *psiman-pkgs-path* (default ~/.pkgs). Each line in this file should be name of a package. For example:
+Create a file at the path specified in *psiman-cmd-list*. Each line in this file should be name of a package. For example:
 #+begin_src text
 vim
 neovim
@@ -42,29 +44,25 @@ zsh
 #+end_src
 
 2. Sync packages
-Run the following command to sync the packages compared to cache file *psiman-cache-path* (default in ~/.cache)
+Run the following command to sync the packages compared to cache file
 #+begin_src elisp
-M-x psiman-sync-all
+M-x psiman-sync
 #+end_src
 
 * Configuration
-You can customize the behavior of psiman by setting the following variables:
-- psiman-pkgs-path:
-        The path to the file containing the list of packages.
-        Default: ./pkgs
-- psiman-cache-path:
-        The path to the cache file.
-        Default: ./cache
-- psiman-install-cmd:
-        The command to install packages.
-        Default: "paru -S "
-- psiman-uninstall-cmd:
-        The command to uninstall packages.
-        Default: "paru -R "
+You can add commands like below
 - Example:
 #+begin_src elisp
-(setq psiman-pkgs-path "/path/to/pkgs")
-(setq psiman-cache-path "/path/to/cache")
-(setq psiman-install-cmd "paru -S ")
-(setq psiman-uninstall-cmd "paru -R ")
+(setq psiman-cmd-list
+      '(("paru -S --noconfirm %s"
+         "paru -R --noconfirm %s"
+         "~/.dotfiles/.pkg-path"
+         "~/.config/.pkg-cache"
+         " ")
+
+        ("pacman -S --noconfirm %s"
+         "pacman -S --noconfirm %s"
+         "~/.dotfiles/.pacman-path"
+         "~/.config/pacman-cache"
+         " ")))
 #+end_src

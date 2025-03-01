@@ -24,12 +24,19 @@
 ;;; Code:
 
 ;; Define a customizable list of commands and paths for package management.
+(psiman-sync)
 (defcustom psiman-cmd-list
   ;; Default value
-  '(("paru -S --noconfirm %s" ;; install command
-     "paru -R --noconfirm %s" ;; uninstall command
-     "~/.dotfiles/.pkg-path"              ;; pkgs path
-     "~/.config/.pkg-cache"             ;; cache path
+  '(("pacman -S --noconfirm %s"
+     "pacman -S --noconfirm %s"
+     "~/.dotfiles/.pacman-path"
+     "~/.config/.pacman-cache"
+     " ")
+
+    ("paru -S --noconfirm %s"
+     "paru -R --noconfirm %s"
+     "~/.dotfiles/.pkg-path"
+     "~/.config/.pkg-cache"
      " "))  ;; concat items with space
   "A list of commands and paths for package management.
 Each sublist contains:
@@ -137,7 +144,7 @@ separate command for each item."
                            (format "%s" temp)))))))
     (setq cmd nil)
     (if (funcall make-cmd)
-        (setq cmd (format "%s; %s" (funcall make-cmd) (format "cp %s %s;" path cache-path))))
+        (setq cmd (format "%s; %s" (funcall make-cmd) (format "cp %s %s" path cache-path))))
     cmd
     ))
 
