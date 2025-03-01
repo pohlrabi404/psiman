@@ -37,13 +37,7 @@
      "~/.dotfiles/.pkg-path"
      "~/.config/.pkg-cache"
      " "))  ;; concat items with space
-  "A list of commands and paths for package management.
-Each sublist contains:
-- Install command
-- Uninstall command
-- Path to the package list file
-- Path to the cache file
-- Group item (used for grouping items together, put nil in if not needed and each items will have their own command)"
+  "A list of commands and paths for package management."
   :type 'list
   :group 'psiman)
 
@@ -85,13 +79,7 @@ Arguments:
 (defun psiman-sync-cmd (do-cmd undo-cmd path cache-path group-item)
   "Synchronize system packages with the declared list for a specific set of commands.
 This function reads the package list from the file at `path`, compares it with the
-cache file at `cache-path`, and installs or uninstalls packages as necessary.
-Arguments:
-- do-cmd: The command to install packages.
-- undo-cmd: The command to uninstall packages.
-- path: The path to the package list file.
-- cache-path: The path to the cache file.
-- group-item: used for grouping items together, nil if you want to separate each commands"
+cache file at `cache-path`, and installs or uninstalls packages as necessary."
   (let* (
          ;; Function to read a file into a list of lines.
          (file-to-list (lambda (path)
