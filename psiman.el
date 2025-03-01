@@ -22,8 +22,6 @@
 ;;
 ;; It's advised to put the path in version control and NOT put cache in version control
 ;;; Code:
-
-;; Define a customizable list of commands and paths for package management.
 (defcustom psiman-cmd-list
   ;; Default value
   '(("pacman -S --noconfirm %s"
@@ -77,22 +75,16 @@ Arguments:
 
 ;; Synchronize system packages with the declared list for a specific set of commands.
 (defun psiman-sync-cmd (do-cmd undo-cmd path cache-path group-item)
-  "Synchronize system packages with the declared list for a specific set of commands.
-This function reads the package list from the file at `path`, compares it with the
-cache file at `cache-path`, and installs or uninstalls packages as necessary."
+  "Synchronize system packages with the declared list for a specific set of commands."
   (let* (
          ;; Function to read a file into a list of lines.
          (file-to-list (lambda (path)
-                         "Read a file into a list of lines.
-If the file does not exist, create an empty file at the specified path."
                          (unless (file-exists-p path)
                            (with-temp-file path
                              (insert "")))
                          (with-temp-buffer
                            (insert-file-contents path)
                            (split-string (buffer-string) "\n" t))))
-
-
 
          ;; Get the list of new and old items.
          (items-list (funcall file-to-list path))
@@ -102,9 +94,6 @@ If the file does not exist, create an empty file at the specified path."
 
          ;; Function to create the command string.
          (make-cmd (lambda ()
-                     "Create the command string.
-If `group-item` is non-nil, group the commands together. Otherwise, create a
-separate command for each item."
                      (if group-item
                          (let* ((do-list-str (mapconcat 'identity do-list group-item))
                                 (undo-list-str (mapconcat 'identity undo-list group-item))
@@ -133,7 +122,6 @@ separate command for each item."
     (if (funcall make-cmd)
         (setq cmd (format "%s; %s" (funcall make-cmd) (format "cp %s %s" path cache-path))))
     cmd))
-
 
 (provide 'psiman)
 ;;; psiman.el ends here
