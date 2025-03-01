@@ -24,7 +24,6 @@
 ;;; Code:
 
 ;; Define a customizable list of commands and paths for package management.
-(psiman-sync)
 (defcustom psiman-cmd-list
   ;; Default value
   '(("pacman -S --noconfirm %s"
@@ -105,7 +104,7 @@ If the file does not exist, create an empty file at the specified path."
                            (insert-file-contents path)
                            (split-string (buffer-string) "\n" t))))
 
-         
+
 
          ;; Get the list of new and old items.
          (items-list (funcall file-to-list path))
@@ -145,8 +144,8 @@ separate command for each item."
     (setq cmd nil)
     (if (funcall make-cmd)
         (setq cmd (format "%s; %s" (funcall make-cmd) (format "cp %s %s" path cache-path))))
-    cmd
-    ))
+    cmd))
+
 
 (provide 'psiman)
 ;;; psiman.el ends here
